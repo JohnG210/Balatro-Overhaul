@@ -41,7 +41,34 @@ preloaded as the Lua module `overhaul_ios`):
   sends after a rotation).
 - `main.lua` / `conf.lua`: start the installed game, or the import screen.
 
-## Build
+## Build with GitHub Actions (no Mac needed)
+
+After this workflow is merged into the repository's default branch:
+
+1. Open **Actions → Build iOS IPA → Run workflow**.
+2. Select the branch or release tag to build, then press **Run workflow**.
+   That ref must contain the iOS workflow and port. Version/build numbers
+   are read from that ref's `game/manifest.lua`; update the manifest before
+   building a new release.
+3. Open the completed run and download **BalatroOverhaul-iOS-<run number>**
+   under **Artifacts** (GitHub login required). Unzip it to get the unsigned
+   IPA, `SHA256SUMS`, and the content-audit report.
+4. If publishing a release, upload those files to the GitHub release yourself.
+   Rebuilding does not automatically publish or replace any release assets.
+
+The workflow also builds on relevant pull requests and pushes. It needs
+no Apple account, signing certificates or repository secrets. The token
+has read-only repository permissions; AltStore/SideStore signs the IPA on
+installation. Artifacts expire after 30 days, so attach the IPA and notices
+to a release for permanent distribution.
+
+The standard `macos-26` runner uses Xcode 26.6, currently available on
+GitHub's runner image. This does **not** validate the iOS 27/Duo SDK path;
+that was tested separately with Xcode 27.2. When GitHub supplies Xcode 27,
+the workflow's `DEVELOPER_DIR` can be updated. A green build proves
+compilation and the content audit, not on-device gameplay or haptics.
+
+## Build locally
 
 Needs macOS with full Xcode (tested with Xcode 26.5 and 27.2; 27.x is
 needed for iPhone Duo / iOS 27 devices). Run from the repository root:

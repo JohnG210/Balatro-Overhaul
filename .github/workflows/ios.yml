@@ -1,0 +1,76 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, ios-port]
+    paths:
+      - '.github/workflows/ios.yml'
+      - 'tools/release/ios/**'
+      - 'tools/release/android/bootstrap/**'
+      - 'tools/release/android/icon/**'
+      - 'tools/release/patcher/**'
+      - 'game/**'
+  pull_request:
+    paths:
+      - '.github/workflows/ios.yml'
+      - 'tools/release/ios/**'
+      - 'tools/release/android/bootstrap/**'
+      - 'tools/release/android/icon/**'
+      - 'tools/release/patcher/**'
+      - 'game/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Unsigned IPA (bring your own game)
+    runs-on: macos-26
+    timeout-minutes: 45
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+      OVERHAUL_IOS_SOURCE_URL: https://github.com/${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Toolchain
+        run: xcodebuild -version
+      - name: Stage verified LOVE sources
+        run: tools/release/ios/scripts/fetch_sources.sh
+      - name: Prepare iOS app and launcher
+        run: |
+          python3 -B tools/release/ios/scripts/prepare_love.py
+          python3 -B tools/release/ios/scripts/make_launcher_love.py
+      - name: Build unsigned device app
+        run: |
+          set -o pipefail
+          tools/release/ios/scripts/build_app.sh > "$RUNNER_TEMP/ios-build.log" 2>&1 || {
+            cat "$RUNNER_TEMP/ios-build.log"
+            exit 1
+          }
+      - name: Package IPA and audit contents
+        run: python3 -B tools/release/ios/scripts/make_ipa.py
+      - name: Upload IPA, checksums and audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: BalatroOverhaul-iOS-${{ github.run_number }}
+          path: |
+            tools/release/ios/build/out/*.ipa
+            tools/release/ios/build/out/*.AUDIT.txt
+            tools/release/ios/build/out/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-build-log-${{ github.run_number }}
+          path: ${{ runner.temp }}/ios-build.log
+          if-no-files-found: ignore
+          retention-days: 7
