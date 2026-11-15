@@ -19,7 +19,9 @@ BUILD = IOS / "build"                                  # git-ignored
 SRC = BUILD / "src"
 SUMS = IOS / "SHA256SUMS"
 LOVE_SRC = SRC / "love-11.5-ios-source"
-OVERHAUL_URL = "https://github.com/JupiterianSoul/Balatro-Overhaul"
+# Where the commit named in SOURCE.md can be fetched (set this when building
+# from a fork whose commits are not in the main repository).
+OVERHAUL_URL = os.environ.get("OVERHAUL_IOS_SOURCE_URL", "https://github.com/JupiterianSoul/Balatro-Overhaul")
 LOVE_URL = "https://github.com/love2d/love/releases/tag/11.5"
 WORK = BUILD / "work"
 OUT = BUILD / "out"

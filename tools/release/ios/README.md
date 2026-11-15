@@ -57,7 +57,9 @@ python3 -B tools/release/ios/scripts/make_ipa.py # -> tools/release/ios/build/ou
 Everything is written under `tools/release/ios/build/` (git-ignored).
 Version and build number come from `game/manifest.lua`. The bundle id
 defaults to `io.github.jupiteriansoul.balatrooverhaul`; set
-`OVERHAUL_IOS_BUNDLE_ID` to change it. AltStore/SideStore re-sign the IPA
+`OVERHAUL_IOS_BUNDLE_ID` to change it. When building from a fork, set
+`OVERHAUL_IOS_SOURCE_URL` to the fork's URL so `SOURCE.md` points at a
+repository that actually has the commit. AltStore/SideStore re-sign the IPA
 with the user's own Apple ID, so no signing identity is needed.
 
 `make_ipa.py` runs `audit_ipa.py` and refuses to produce an IPA that
