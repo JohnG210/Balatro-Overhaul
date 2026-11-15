@@ -127,7 +127,12 @@ The PC launcher has an **Android** tab that makes the phone app from your Steam 
 
 </details>
 
-No iPhone support, and probably never will, sorry :(
+<details>
+<summary><b>iPhone / iPad (sideload, build it yourself)</b></summary>
+
+There's no App Store version and no official IPA. You can build an unsigned IPA on a Mac with Xcode and sideload it with AltStore or SideStore; see [tools/release/ios](tools/release/ios/README.md). Like on Android, the app doesn't include Balatro: on first launch you import your own Steam copy (`Balatro.exe` or `Balatro.love`) from the Files app and it gets patched on the device.
+
+</details>
 
 ## Updates
 
