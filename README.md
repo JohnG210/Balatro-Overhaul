@@ -64,6 +64,7 @@ Get the file for your device from the [latest release](https://github.com/Jupite
 | macOS | `BalatroOverhaulLauncher-2.0-macos.zip` | Balatro on Steam |
 | Linux | `BalatroOverhaulLauncher-2.0-linux-x86_64.tar.gz` | Balatro on Steam |
 | Android | `BalatroOverhaulLauncher-2.0-android.apk` | Balatro from Google Play |
+| iPhone / iPad | None yet: build the IPA yourself ([guide](tools/release/ios/README.md)) | Balatro on Steam, a Mac with Xcode, AltStore or SideStore |
 
 It's simple to use : it finds your Balatro, you press **Install**, then **Play**.
 
