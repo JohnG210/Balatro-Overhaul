@@ -62,11 +62,12 @@ has read-only repository permissions; AltStore/SideStore signs the IPA on
 installation. Artifacts expire after 30 days, so attach the IPA and notices
 to a release for permanent distribution.
 
-The standard `macos-26` runner uses Xcode 26.6, currently available on
-GitHub's runner image. This does **not** validate the iOS 27/Duo SDK path;
-that was tested separately with Xcode 27.2. When GitHub supplies Xcode 27,
-the workflow's `DEVELOPER_DIR` can be updated. A green build proves
-compilation and the content audit, not on-device gameplay or haptics.
+The standard `xcode-27` runner uses Xcode 27.2 and the iOS 27.2 SDK,
+matching the toolchain used for the local Duo build. This runner is free
+for public repositories, but is currently a preview image: queue times
+and availability may vary. No paid larger runner is used. A green build
+proves compilation and the content audit, not on-device gameplay, Duo
+fold/rotation behavior or haptics.
 
 ## Build locally
 

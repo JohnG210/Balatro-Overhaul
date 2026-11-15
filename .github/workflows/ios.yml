@@ -30,10 +30,10 @@ concurrency:
 jobs:
   build:
     name: Unsigned IPA (bring your own game)
-    runs-on: macos-26
+    runs-on: xcode-27
     timeout-minutes: 45
     env:
-      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_27.2.app/Contents/Developer
       OVERHAUL_IOS_SOURCE_URL: https://github.com/${{ github.repository }}
     steps:
       - uses: actions/checkout@v4
