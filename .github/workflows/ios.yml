@@ -3,7 +3,7 @@ name: Build iOS IPA
 on:
   workflow_dispatch:
   push:
-    branches: [main, ios-port]
+    branches: [main, ios-actions]
     paths:
       - '.github/workflows/ios.yml'
       - 'tools/release/ios/**'
